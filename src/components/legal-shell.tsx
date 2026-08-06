@@ -39,7 +39,7 @@ export function LegalShell({
           <ArrowLeft className="h-4 w-4" /> Back to home
         </Link>
         <h1 className="mt-6 text-3xl font-bold md:text-4xl">{title}</h1>
-        <div className="prose prose-stone mt-8 max-w-none text-foreground">
+        <div className="mt-8 space-y-10 leading-relaxed text-foreground">
           {children}
         </div>
       </main>
