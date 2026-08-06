@@ -67,6 +67,19 @@ function RefundPage() {
           </li>
         </ul>
       </section>
+
+      <p className="text-xs text-muted-foreground">
+        Generated using{" "}
+        <a
+          href="https://www.termsfeed.com/privacy-policy-generator/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand underline underline-offset-4 hover:no-underline"
+        >
+          TermsFeed Privacy Policy Generator
+        </a>
+        .
+      </p>
     </LegalShell>
   );
 }
