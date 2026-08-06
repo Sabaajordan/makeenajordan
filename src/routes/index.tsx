@@ -140,7 +140,7 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <a href="#top" className="font-display text-lg font-800 tracking-tight">
+          <a href="#top" className="text-lg tracking-tight">
             <span className="font-bold text-brand">Makeena</span>
             <span className="ml-1.5 text-sm font-semibold text-muted-foreground">Jordan</span>
           </a>
