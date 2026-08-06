@@ -356,13 +356,34 @@ function Index() {
         </section>
       </main>
 
-      <footer className="border-t border-border py-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 text-sm text-muted-foreground sm:flex-row">
-          <p>
-            <span className="font-semibold text-brand">Makeena</span> Jordan — Vending machine services
-            for snacks & drinks.
+      <footer className="border-t border-border py-10">
+        <div className="mx-auto max-w-6xl px-5">
+          <div className="flex flex-col items-center justify-between gap-5 text-sm text-muted-foreground sm:flex-row">
+            <p>
+              <span className="font-semibold text-brand">Makeena</span> Jordan — Vending machine services
+              for snacks & drinks.
+            </p>
+            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+              <Link to="/terms" className="transition-colors hover:text-foreground">
+                Terms
+              </Link>
+              <Link to="/privacy" className="transition-colors hover:text-foreground">
+                Privacy
+              </Link>
+              <Link to="/refund" className="transition-colors hover:text-foreground">
+                Refund
+              </Link>
+              <Link to="/cancellation" className="transition-colors hover:text-foreground">
+                Cancellation
+              </Link>
+              <Link to="/delivery" className="transition-colors hover:text-foreground">
+                Delivery
+              </Link>
+            </nav>
+          </div>
+          <p className="mt-6 text-center text-sm text-muted-foreground sm:text-left">
+            © {new Date().getFullYear()} Makeena Jordan. All rights reserved.
           </p>
-          <p>© {new Date().getFullYear()} Makeena Jordan. All rights reserved.</p>
         </div>
       </footer>
     </div>
