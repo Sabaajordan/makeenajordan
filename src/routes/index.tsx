@@ -11,9 +11,9 @@ import {
   Building2,
   ArrowRight,
 } from "lucide-react";
-import heroImage from "@/assets/hero-vending.jpg";
 import machineImage from "@/assets/machine.jpg";
 import { MakeenaLogo } from "@/components/makeena-logo";
+import { HeroMachine } from "@/components/hero-machine";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -162,40 +162,43 @@ function Index() {
 
       <main id="top">
         {/* Hero */}
-        <section className="relative overflow-hidden">
-          <img
-            src={heroImage}
-            alt="Snack and drink vending machines installed in a modern office lobby in Amman"
-            width={1600}
-            height={1104}
-            className="absolute inset-0 h-full w-full object-cover"
+        <section className="relative overflow-hidden bg-gradient-to-b from-sand via-background to-background">
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-70"
+            style={{
+              background:
+                "radial-gradient(60% 55% at 80% 20%, oklch(0.78 0.09 205 / 0.35), transparent 60%), radial-gradient(50% 50% at 15% 90%, oklch(0.52 0.09 205 / 0.18), transparent 65%)",
+            }}
           />
-          <div className="absolute inset-0 bg-ink/78" />
-          <div className="relative mx-auto max-w-6xl px-5 py-24 md:py-32">
-            <p className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/25 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink-foreground/80">
-              The first of its kind in Jordan
-            </p>
-            <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-[1.05] text-ink-foreground md:text-6xl">
-              Snacks & cold drinks for your workplace — installed free.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-foreground/75">
-              Makeena Jordan supplies, stocks and maintains first-class vending machines across Amman.
-              No start-up fees. No rental fees. No hassles.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-brand-foreground shadow-lift transition-transform hover:scale-[1.03]"
-              >
-                Get a free machine <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href={PHONE_HREF}
-                className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/30 px-7 py-3.5 text-base font-semibold text-ink-foreground transition-colors hover:bg-ink-foreground/10"
-              >
-                {PHONE}
-              </a>
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[1.05fr_1fr] md:items-center md:py-24 md:pb-32">
+            <div>
+              <p className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-background/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand backdrop-blur">
+                The first of its kind in Jordan
+              </p>
+              <h1 className="mt-6 max-w-2xl text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
+                Snacks & cold drinks for your workplace — installed free.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                Makeena Jordan supplies, stocks and maintains first-class vending machines across Amman.
+                No start-up fees. No rental fees. No hassles.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-brand-foreground shadow-lift transition-transform hover:scale-[1.03]"
+                >
+                  Get a free machine <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href={PHONE_HREF}
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-base font-semibold text-foreground transition-colors hover:bg-secondary"
+                >
+                  {PHONE}
+                </a>
+              </div>
             </div>
+            <HeroMachine />
           </div>
         </section>
 
