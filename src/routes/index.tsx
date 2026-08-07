@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useRef } from "react";
 import {
   Phone,
   Mail,
@@ -137,6 +138,7 @@ const steps = [
 ];
 
 function Index() {
+  const heroRef = useRef<HTMLElement>(null);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
@@ -161,8 +163,11 @@ function Index() {
       </header>
 
       <main id="top">
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-sand via-background to-background">
+        {/* Hero — pinned scroll reveal on desktop, play-on-enter on mobile */}
+        <section
+          ref={heroRef}
+          className="relative h-screen min-h-[640px] overflow-hidden bg-gradient-to-b from-sand via-background to-background md:h-screen"
+        >
           <div
             aria-hidden
             className="absolute inset-0 opacity-70"
@@ -171,19 +176,28 @@ function Index() {
                 "radial-gradient(60% 55% at 80% 20%, oklch(0.78 0.09 205 / 0.35), transparent 60%), radial-gradient(50% 50% at 15% 90%, oklch(0.52 0.09 205 / 0.18), transparent 65%)",
             }}
           />
-          <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[1.05fr_1fr] md:items-center md:py-24 md:pb-32">
+          <div className="relative mx-auto grid h-full max-w-6xl gap-8 px-5 py-10 md:grid-cols-[1.05fr_1fr] md:items-center md:py-14">
             <div>
-              <p className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-background/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand backdrop-blur">
+              <p
+                data-hero-badge
+                className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-background/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand backdrop-blur"
+              >
                 The first of its kind in Jordan
               </p>
-              <h1 className="mt-6 max-w-2xl text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
+              <h1
+                data-hero-headline
+                className="mt-6 max-w-2xl text-4xl font-bold leading-[1.05] text-foreground md:text-6xl"
+              >
                 Snacks & cold drinks for your workplace — installed free.
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              <p
+                data-hero-subhead
+                className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground"
+              >
                 Makeena Jordan supplies, stocks and maintains first-class vending machines across Amman.
                 No start-up fees. No rental fees. No hassles.
               </p>
-              <div className="mt-9 flex flex-wrap gap-3">
+              <div data-hero-ctas className="mt-9 flex flex-wrap gap-3">
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-brand-foreground shadow-lift transition-transform hover:scale-[1.03]"
@@ -198,7 +212,7 @@ function Index() {
                 </a>
               </div>
             </div>
-            <HeroMachine />
+            <HeroMachine sectionRef={heroRef} />
           </div>
         </section>
 

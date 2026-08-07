@@ -1,10 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import * as THREE from "three";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BRAND_TEAL = 0x00727f;
 const BRAND_TEAL_LIGHT = 0x5bc2ce;
 const INK_NAVY = 0x2b3944;
-const SAND = 0xf5f0e6;
 
 const SNACK_COLORS = [
   [0xf97316, 0xef4444, 0xf59e0b, 0xf97316],
@@ -25,31 +28,34 @@ function makeSmileyTexture(): THREE.CanvasTexture {
   ctx.strokeStyle = ctx.fillStyle;
   ctx.lineCap = "round";
   ctx.lineWidth = 8;
-
   ctx.beginPath();
   ctx.arc(100, 48, 10, 0, Math.PI * 2);
   ctx.arc(156, 48, 10, 0, Math.PI * 2);
   ctx.fill();
-
   ctx.beginPath();
   ctx.moveTo(88, 78);
   ctx.quadraticCurveTo(128, 108, 168, 78);
   ctx.stroke();
-
   const tex = new THREE.CanvasTexture(c);
   tex.anisotropy = 4;
   tex.needsUpdate = true;
   return tex;
 }
 
-export function HeroMachine() {
+export function HeroMachine({
+  sectionRef,
+}: {
+  sectionRef: RefObject<HTMLElement | null>;
+}) {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
-    if (!mount) return;
+    const section = sectionRef.current;
+    if (!mount || !section) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
     const width = mount.clientWidth;
     const height = mount.clientHeight;
@@ -57,7 +63,7 @@ export function HeroMachine() {
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 0.9, 6);
+    camera.position.set(4.2, 1.2, 4.6);
     camera.lookAt(0, 0.2, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -131,6 +137,10 @@ export function HeroMachine() {
     const shelfH = 2.3;
     const startX = -0.25 - shelfW / 2 + shelfW / cols / 2;
     const startY = 0.35 + shelfH / 2 - shelfH / rows / 2;
+
+    type Snack = { mesh: THREE.Mesh; restY: number; order: number };
+    const snacks: Snack[] = [];
+    let order = 0;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const mat = track(
@@ -141,13 +151,11 @@ export function HeroMachine() {
           }),
         );
         const snack = new THREE.Mesh(snackGeo, mat);
-        snack.position.set(
-          startX + c * (shelfW / cols),
-          startY - r * (shelfH / rows),
-          0.6,
-        );
+        const restY = startY - r * (shelfH / rows);
+        snack.position.set(startX + c * (shelfW / cols), restY, 0.6);
         snack.castShadow = true;
         machine.add(snack);
+        snacks.push({ mesh: snack, restY, order: order++ });
       }
     }
 
@@ -225,6 +233,8 @@ export function HeroMachine() {
         map: smileyTex,
         roughness: 0.65,
         metalness: 0,
+        emissive: new THREE.Color(BRAND_TEAL_LIGHT),
+        emissiveIntensity: 0,
       }),
     );
     const smileyGeo = track(new THREE.PlaneGeometry(2.0, 0.5));
@@ -232,9 +242,7 @@ export function HeroMachine() {
     smiley.position.set(0, -1.35, 0.62);
     machine.add(smiley);
 
-    const groundMat = track(
-      new THREE.ShadowMaterial({ opacity: 0.35 }),
-    );
+    const groundMat = track(new THREE.ShadowMaterial({ opacity: 0.35 }));
     const groundGeo = track(new THREE.PlaneGeometry(20, 20));
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
@@ -242,46 +250,40 @@ export function HeroMachine() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-    machine.rotation.y = 0.15;
+    machine.rotation.y = -0.5;
 
-    const target = { rx: 0, ry: 0 };
-    const current = { rx: 0, ry: 0 };
-
-    const onMove = (e: PointerEvent) => {
-      const rect = mount.getBoundingClientRect();
-      const nx = (e.clientX - rect.left) / rect.width - 0.5;
-      const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      target.ry = nx * 0.6;
-      target.rx = -ny * 0.35;
-    };
-    const onLeave = () => {
-      target.rx = 0;
-      target.ry = 0;
-    };
-    if (!reduceMotion) {
-      mount.addEventListener("pointermove", onMove);
-      mount.addEventListener("pointerleave", onLeave);
+    // Beat 1 initial state: snacks lifted above shelves, screen dim
+    for (const s of snacks) {
+      s.mesh.position.y = s.restY + 3.5;
+      s.mesh.visible = false;
     }
+    (screenMat.color as THREE.Color).setScalar(0.12);
+    smileyMat.emissiveIntensity = 0;
 
+    // Final composed state helper
+    const applyFinalState = () => {
+      camera.position.set(0, 0.9, 6);
+      machine.rotation.y = 0.05;
+      for (const s of snacks) {
+        s.mesh.position.y = s.restY;
+        s.mesh.visible = true;
+      }
+      (screenMat.color as THREE.Color).setHex(BRAND_TEAL_LIGHT);
+      smileyMat.emissiveIntensity = 0.35;
+    };
+
+    // Render loop
     let rafId = 0;
     const clock = new THREE.Clock();
     let elapsed = 0;
-
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const dt = clock.getDelta();
       elapsed += dt;
-
-      if (reduceMotion) {
-        machine.rotation.y = 0.15;
-      } else {
-        current.rx += (target.rx - current.rx) * 0.08;
-        current.ry += (target.ry - current.ry) * 0.08;
-        machine.rotation.x = current.rx + Math.sin(elapsed * 0.8) * 0.02;
-        machine.rotation.y = 0.15 + current.ry + Math.sin(elapsed * 0.5) * 0.05;
-        machine.position.y = Math.sin(elapsed * 1.2) * 0.05;
+      // idle bob layered on top of scroll-driven rotation
+      if (!reduceMotion) {
+        machine.position.y = Math.sin(elapsed * 1.2) * 0.04;
       }
-
       renderer.render(scene, camera);
     };
     animate();
@@ -296,18 +298,115 @@ export function HeroMachine() {
     const ro = new ResizeObserver(onResize);
     ro.observe(mount);
 
+    // ============ Scroll-driven timeline ============
+    let scrollTrigger: ScrollTrigger | null = null;
+    let timeline: gsap.core.Timeline | null = null;
+
+    const headline = section.querySelector<HTMLElement>("[data-hero-headline]");
+    const subhead = section.querySelector<HTMLElement>("[data-hero-subhead]");
+    const badge = section.querySelector<HTMLElement>("[data-hero-badge]");
+    const ctas = section.querySelector<HTMLElement>("[data-hero-ctas]");
+
+    if (reduceMotion) {
+      applyFinalState();
+      [badge, headline, subhead, ctas].forEach((el) => {
+        if (el) el.style.opacity = "1";
+      });
+    } else {
+      // Set DOM start state
+      [badge, headline, subhead, ctas].forEach((el) => {
+        if (el) {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(16px)";
+        }
+      });
+
+      const stConfig: ScrollTrigger.Vars = isMobile
+        ? {
+            trigger: section,
+            start: "top 75%",
+            end: "bottom 40%",
+            toggleActions: "play none none reverse",
+          }
+        : {
+            trigger: section,
+            start: "top top",
+            end: "+=150%",
+            scrub: 1,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+          };
+
+      timeline = gsap.timeline({ scrollTrigger: stConfig, defaults: { ease: "power2.inOut" } });
+
+      // Beat 1 (0 → 0.33): camera orbit + machine rotate + text arrives
+      timeline
+        .to(camera.position, { x: 0, y: 0.9, z: 6, duration: 0.33 }, 0)
+        .to(machine.rotation, { y: 0.05, duration: 0.33 }, 0)
+        .to(badge, { opacity: 1, y: 0, duration: 0.2 }, 0.05)
+        .to(headline, { opacity: 1, y: 0, duration: 0.25 }, 0.1)
+        .to(subhead, { opacity: 1, y: 0, duration: 0.25 }, 0.18);
+
+      // Beat 2 (0.33 → 0.66): make snacks visible, drop them in with stagger
+      timeline.call(
+        () => {
+          for (const s of snacks) s.mesh.visible = true;
+        },
+        undefined,
+        0.33,
+      );
+      snacks.forEach((s) => {
+        const localStart = 0.33 + (s.order / snacks.length) * 0.25;
+        timeline!.to(
+          s.mesh.position,
+          { y: s.restY, duration: 0.08, ease: "power3.in" },
+          localStart,
+        );
+      });
+
+      // Screen lights up mid-beat-2
+      timeline.to(
+        (screenMat as THREE.MeshBasicMaterial).color,
+        { r: 0.36, g: 0.76, b: 0.81, duration: 0.15 },
+        0.55,
+      );
+
+      // Beat 3 (0.66 → 1): smiley glows, CTAs land, subtle camera settle
+      timeline
+        .to(smileyMat, { emissiveIntensity: 0.35, duration: 0.2 }, 0.7)
+        .to(camera.position, { z: 5.6, duration: 0.2 }, 0.7)
+        .to(ctas, { opacity: 1, y: 0, duration: 0.25 }, 0.75);
+
+      scrollTrigger = timeline.scrollTrigger ?? null;
+
+      // Refresh once fonts/layout settle
+      const refreshId = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+
+      return () => {
+        window.clearTimeout(refreshId);
+        cancelAnimationFrame(rafId);
+        ro.disconnect();
+        timeline?.kill();
+        scrollTrigger?.kill();
+        disposables.forEach((d) => d.dispose());
+        renderer.dispose();
+        if (renderer.domElement.parentNode === mount) {
+          mount.removeChild(renderer.domElement);
+        }
+      };
+    }
+
     return () => {
       cancelAnimationFrame(rafId);
       ro.disconnect();
-      mount.removeEventListener("pointermove", onMove);
-      mount.removeEventListener("pointerleave", onLeave);
       disposables.forEach((d) => d.dispose());
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) {
         mount.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [sectionRef]);
 
   return (
     <div
