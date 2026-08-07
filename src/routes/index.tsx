@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import heroImage from "@/assets/hero-vending.jpg";
 import machineImage from "@/assets/machine.jpg";
+import { MakeenaLogo } from "@/components/makeena-logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -140,9 +141,8 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <a href="#top" className="text-lg tracking-tight">
-            <span className="font-bold text-brand">Makeena</span>
-            <span className="ml-1.5 text-sm font-semibold text-muted-foreground">Jordan</span>
+          <a href="#top" aria-label="Makeena Jordan — Home">
+            <MakeenaLogo />
           </a>
           <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Services</a>

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Phone } from "lucide-react";
 import type { ReactNode } from "react";
+import { MakeenaLogo } from "./makeena-logo";
 
 const PHONE_HREF = "tel:+962797890694";
 
@@ -17,9 +18,8 @@ export function LegalShell({
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <Link to="/" className="text-lg tracking-tight">
-            <span className="font-bold text-brand">Makeena</span>
-            <span className="ml-1.5 text-sm font-semibold text-muted-foreground">Jordan</span>
+          <Link to="/" aria-label="Makeena Jordan — Home">
+            <MakeenaLogo />
           </Link>
           <a
             href={PHONE_HREF}
