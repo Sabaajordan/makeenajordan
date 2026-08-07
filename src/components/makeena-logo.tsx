@@ -17,9 +17,9 @@ export function MakeenaMark({
       {...props}
     >
       <rect x="4" y="3" width="40" height="50" rx="6" />
-      <circle cx="18" cy="30" r="3.2" fill="currentColor" stroke="none" />
-      <circle cx="30" cy="30" r="3.2" fill="currentColor" stroke="none" />
-      <path d="M14 18 Q24 26 34 18" />
+      <circle cx="18" cy="22" r="2.6" fill="currentColor" stroke="none" />
+      <circle cx="30" cy="22" r="2.6" fill="currentColor" stroke="none" />
+      <path d="M15 32 Q24 40 33 32" />
       <path d="M10 53 v3 a2 2 0 0 0 2 2 h2 a2 2 0 0 0 2 -2 v-3" />
       <path d="M32 53 v3 a2 2 0 0 0 2 2 h2 a2 2 0 0 0 2 -2 v-3" />
     </svg>
