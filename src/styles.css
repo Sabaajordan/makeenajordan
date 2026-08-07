@@ -177,15 +177,3 @@
   box-shadow: var(--shadow-lift);
 }
 
-/* Hero 3D canvas mount */
-.hero-canvas {
-  cursor: grab;
-}
-.hero-canvas:active {
-  cursor: grabbing;
-}
-.hero-canvas canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
