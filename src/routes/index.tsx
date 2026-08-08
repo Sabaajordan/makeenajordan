@@ -12,7 +12,10 @@ import {
   ArrowRight,
 } from "lucide-react";
 import heroImage from "@/assets/hero-vending.jpg";
-import machineImage from "@/assets/machine.jpg";
+import machineImage from "@/assets/vending-michelangelo.jpg";
+import covimMachine from "@/assets/covim-machine.jpg";
+import covimPrestige from "@/assets/covim-prestige.jpg";
+import covimCapsules from "@/assets/covim-capsules.jpg";
 import { MakeenaLogo } from "@/components/makeena-logo";
 
 export const Route = createFileRoute("/")({
@@ -146,6 +149,7 @@ function Index() {
           </a>
           <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Services</a>
+            <a href="#coffee" className="transition-colors hover:text-foreground">Coffee</a>
             <a href="#products" className="transition-colors hover:text-foreground">Products</a>
             <a href="#how" className="transition-colors hover:text-foreground">How it works</a>
             <a href="#contact" className="transition-colors hover:text-foreground">Contact</a>
@@ -288,6 +292,98 @@ function Index() {
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Coffee by Covim */}
+        <section id="coffee" className="bg-ink text-ink-foreground">
+          <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+                Coffee by Covim
+              </p>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">
+                Authentic Italian espresso, delivered daily.
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-ink-foreground/75">
+                Makeena is the exclusive partner for Covim in Jordan — a Genoese roaster
+                supplying espresso to Italian bars since 1974. Three ways to serve it at your site.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {/* Card 1 — Machine */}
+              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+                <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-black to-neutral-900 p-6">
+                  <img
+                    src={covimMachine}
+                    alt="Covim CS100R capsule espresso machine dispensing an espresso into a branded cup"
+                    width={800}
+                    height={800}
+                    loading="lazy"
+                    className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                    Machine
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold">Covim CS100R</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
+                    Compact capsule espresso machine, Made in Italy. Zero fuss for the office —
+                    two-button service, easy refill.
+                  </p>
+                </div>
+              </article>
+
+              {/* Card 2 — Prestige beans */}
+              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+                <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-300 p-6">
+                  <img
+                    src={covimPrestige}
+                    alt="Covim Prestige 1 kg bag of whole-bean espresso coffee"
+                    width={800}
+                    height={800}
+                    loading="lazy"
+                    className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                    Whole beans
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold">Covim Prestige — 1 kg</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
+                    A balanced Arabica-Robusta blend for sites with a bean-to-cup grinder.
+                    Rich crema, chocolatey finish.
+                  </p>
+                </div>
+              </article>
+
+              {/* Card 3 — Superba capsules */}
+              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+                <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 to-neutral-200 p-6">
+                  <img
+                    src={covimCapsules}
+                    alt="Covim Superba capsule range — Maestrale, Scirocco, Libeccio, Levante and Suave decaffeinato"
+                    width={800}
+                    height={480}
+                    loading="lazy"
+                    className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                    Capsules
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold">Superba — 5 blends</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
+                    Maestrale, Scirocco, Libeccio, Levante, and Suave decaf. Something for every
+                    palate in the office.
+                  </p>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
