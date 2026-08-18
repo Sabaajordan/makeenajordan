@@ -10,6 +10,7 @@ import {
   BadgeDollarSign,
   Building2,
   ArrowRight,
+  MessageCircle,
 } from "lucide-react";
 import heroImage from "@/assets/hero-vending.jpg";
 import machineImage from "@/assets/vending-michelangelo.jpg";
@@ -62,6 +63,19 @@ export const Route = createFileRoute("/")({
 
 const PHONE = "+962 79 789 0694";
 const PHONE_HREF = "tel:+962797890694";
+const WA_NUMBER = "962797890694";
+const waOrder = (item: string) =>
+  `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    `Hello Makeena, I'd like to order: ${item}.`,
+  )}`;
+
+const capsuleFlavors: { name: string; tag: string; inStock: boolean }[] = [
+  { name: "Maestrale", tag: "gold — full-bodied", inStock: true },
+  { name: "Scirocco", tag: "brown — classic espresso", inStock: false },
+  { name: "Libeccio", tag: "dark — intense", inStock: false },
+  { name: "Levante", tag: "silver — smooth", inStock: false },
+  { name: "Suave", tag: "blue — decaffeinato", inStock: false },
+];
 
 const benefits = [
   {
@@ -313,7 +327,12 @@ function Index() {
 
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {/* Card 1 — Machine */}
-              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+              <a
+                href={waOrder("Covim CS100R espresso machine — 120 JD")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex flex-col overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-accent"
+              >
                 <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-black to-neutral-900 p-6">
                   <img
                     src={covimMachine}
@@ -324,7 +343,7 @@ function Index() {
                     className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
+                <div className="flex flex-1 flex-col p-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
                     Machine
                   </p>
@@ -333,11 +352,24 @@ function Index() {
                     Compact capsule espresso machine, Made in Italy. Zero fuss for the office —
                     two-button service, easy refill.
                   </p>
+                  <div className="mt-5 flex items-end justify-between">
+                    <span className="font-display text-2xl font-bold text-ink-foreground">
+                      120 <span className="text-sm font-semibold text-ink-foreground/60">JD</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1.5 text-xs font-semibold text-accent transition-colors group-hover:bg-accent group-hover:text-ink">
+                      <MessageCircle className="h-3.5 w-3.5" /> Order on WhatsApp
+                    </span>
+                  </div>
                 </div>
-              </article>
+              </a>
 
               {/* Card 2 — Prestige beans */}
-              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+              <a
+                href={waOrder("Covim Prestige 1 kg whole beans — 25 JD")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex flex-col overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-accent"
+              >
                 <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-300 p-6">
                   <img
                     src={covimPrestige}
@@ -348,7 +380,7 @@ function Index() {
                     className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
+                <div className="flex flex-1 flex-col p-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
                     Whole beans
                   </p>
@@ -357,11 +389,19 @@ function Index() {
                     A balanced Arabica-Robusta blend for sites with a bean-to-cup grinder.
                     Rich crema, chocolatey finish.
                   </p>
+                  <div className="mt-5 flex items-end justify-between">
+                    <span className="font-display text-2xl font-bold text-ink-foreground">
+                      25 <span className="text-sm font-semibold text-ink-foreground/60">JD</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1.5 text-xs font-semibold text-accent transition-colors group-hover:bg-accent group-hover:text-ink">
+                      <MessageCircle className="h-3.5 w-3.5" /> Order on WhatsApp
+                    </span>
+                  </div>
                 </div>
-              </article>
+              </a>
 
-              {/* Card 3 — Superba capsules */}
-              <article className="group relative overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10 transition-transform hover:-translate-y-1">
+              {/* Card 3 — Superba capsules (per-flavor stock) */}
+              <article className="group relative flex flex-col overflow-hidden rounded-3xl bg-ink-foreground/5 ring-1 ring-ink-foreground/10">
                 <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 to-neutral-200 p-6">
                   <img
                     src={covimCapsules}
@@ -369,18 +409,61 @@ function Index() {
                     width={800}
                     height={480}
                     loading="lazy"
-                    className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
                   />
                 </div>
-                <div className="p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-                    Capsules
-                  </p>
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-baseline justify-between">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                      Capsules
+                    </p>
+                    <span className="font-display text-lg font-bold text-ink-foreground">
+                      25 <span className="text-xs font-semibold text-ink-foreground/60">JD / box</span>
+                    </span>
+                  </div>
                   <h3 className="mt-2 text-xl font-semibold">Superba — 5 blends</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
-                    Maestrale, Scirocco, Libeccio, Levante, and Suave decaf. Something for every
-                    palate in the office.
-                  </p>
+                  <p className="mt-1 text-xs text-ink-foreground/60">Box of 48 capsules</p>
+
+                  <ul className="mt-5 space-y-2 text-sm">
+                    {capsuleFlavors.map((f) =>
+                      f.inStock ? (
+                        <li key={f.name}>
+                          <a
+                            href={waOrder(`Covim Superba ${f.name} capsules — 25 JD per box of 48`)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/row flex items-center justify-between rounded-lg bg-accent/10 px-3 py-2 font-medium text-ink-foreground transition-colors hover:bg-accent hover:text-ink"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span className="h-2 w-2 rounded-full bg-accent" />
+                              {f.name}
+                              <span className="text-xs font-normal text-ink-foreground/60 group-hover/row:text-ink/70">
+                                {f.tag}
+                              </span>
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold">
+                              <MessageCircle className="h-3.5 w-3.5" /> Order
+                            </span>
+                          </a>
+                        </li>
+                      ) : (
+                        <li
+                          key={f.name}
+                          className="flex items-center justify-between rounded-lg px-3 py-2 text-ink-foreground/45"
+                          aria-disabled="true"
+                        >
+                          <span className="flex items-center gap-2">
+                            <span className="h-2 w-2 rounded-full bg-ink-foreground/25" />
+                            {f.name}
+                            <span className="text-xs font-normal">{f.tag}</span>
+                          </span>
+                          <span className="rounded-full bg-ink-foreground/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider">
+                            Sold out
+                          </span>
+                        </li>
+                      ),
+                    )}
+                  </ul>
                 </div>
               </article>
             </div>
