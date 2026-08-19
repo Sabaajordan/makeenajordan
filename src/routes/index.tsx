@@ -163,9 +163,9 @@ function Index() {
           </a>
           <nav className="hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Services</a>
-            <a href="#coffee" className="transition-colors hover:text-foreground">Coffee</a>
-            <a href="#products" className="transition-colors hover:text-foreground">Products</a>
             <a href="#how" className="transition-colors hover:text-foreground">How it works</a>
+            <a href="#products" className="transition-colors hover:text-foreground">Products</a>
+            <a href="#coffee" className="transition-colors hover:text-foreground">Coffee</a>
             <a href="#contact" className="transition-colors hover:text-foreground">Contact</a>
           </nav>
           <a
@@ -309,6 +309,33 @@ function Index() {
           </div>
         </section>
 
+        {/* Products */}
+        <section id="products" className="bg-sand">
+          <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Our products</p>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">What goes inside the machine</h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Choose the mix that suits your team — we stock it and keep it full.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {products.map((cat) => (
+                <div key={cat.title} className="rounded-2xl bg-card p-7 shadow-lift">
+                  <h3 className="text-base font-semibold">{cat.title}</h3>
+                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                    {cat.items.map((i) => (
+                      <li key={i} className="flex gap-2">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand" />
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
         {/* Coffee by Covim */}
         <section id="coffee" className="bg-ink text-ink-foreground">
           <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
@@ -470,33 +497,6 @@ function Index() {
           </div>
         </section>
 
-        {/* Products */}
-        <section id="products" className="bg-sand">
-          <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Our products</p>
-              <h2 className="mt-3 text-3xl font-bold md:text-4xl">What goes inside the machine</h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Choose the mix that suits your team — we stock it and keep it full.
-              </p>
-            </div>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {products.map((cat) => (
-                <div key={cat.title} className="rounded-2xl bg-card p-7 shadow-lift">
-                  <h3 className="text-base font-semibold">{cat.title}</h3>
-                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                    {cat.items.map((i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand" />
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Contact */}
         <section id="contact" className="mx-auto max-w-6xl px-5 py-20 md:py-28">
