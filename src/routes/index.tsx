@@ -26,13 +26,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Snacks & cold drinks for your workplace in Amman. Makeena installs vending machines free, then stocks and maintains them — no start-up or rental fees.",
+          "Need office snacks or cold drinks at your workplace in Amman? We install & maintain vending machines at zero cost — no startup fees, no rental fees, just full service.",
       },
       { property: "og:title", content: "Makeena Jordan — Vending Machine Services in Amman" },
       {
         property: "og:description",
         content:
-          "Snacks & cold drinks for your workplace in Amman. Makeena installs vending machines free, then stocks and maintains them — no start-up or rental fees.",
+          "Need office snacks or cold drinks at your workplace in Amman? We install & maintain vending machines at zero cost — no startup fees, no rental fees, just full service.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/")({
           "@type": "LocalBusiness",
           name: "Makeena Jordan",
           description:
-            "Snacks & cold drinks for your workplace in Amman. Makeena installs vending machines free, then stocks and maintains them.",
+            "Need office snacks or cold drinks at your workplace in Amman? We install & maintain vending machines at zero cost — no startup fees, no rental fees, just full service.",
           telephone: "+962797890694",
           email: "info@makeenajordan.com",
           address: {
